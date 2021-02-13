@@ -1,5 +1,6 @@
 const router = require('express').Router();
 let Meme = require('../models/meme.model');
+const checkValidImgUrl = require("../checkValidImageUrl")
 
 router.route('/').get((req, res) => {
   Meme.find()
@@ -21,25 +22,45 @@ router.route('/').post((req, res) => {
   const name = req.body.name;
   const caption = req.body.caption;
   const url = req.body.url
+  
+
   const newMeme = new Meme({
     name,
     caption,
     url
   });
   Meme.find({name,caption,url})
-  .then(fetchedMemes => {
+  .then(async fetchedMemes => {
     //console.log(fetchedMemes.length>0);
     if (fetchedMemes.length>0){
       res.status(409).json('DUPLICATE post not allowed!')
     }
     else{
+      //check if URL exists
+      if(url){
+        let result= await checkValidImgUrl(url)
+        console.log("test for "+url+":"+result);
+        //check if proper image URL
+        if(!result){
+          return res.status(400).json("Not a valid image url!");
+        }
+        else{
+          newMeme.save()
+          .then(() => res.json({"id":newMeme.transform().id}))
+          .catch(err => res.status(400).json('Error: ' + err));
+          }    
+        }
+      //use default mongoose validator to send error message
+      else{    
       newMeme.save()
         .then(() => res.json({"id":newMeme.transform().id}))
         .catch(err => res.status(400).json('Error: ' + err));
+      }
     }
   })
   .catch(err => res.status(500).json('Error' + err));
-  
+
+          
 });
 
  //MIDDLEWARE to check if meme with id exists
