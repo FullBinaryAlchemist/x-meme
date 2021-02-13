@@ -68,6 +68,21 @@ describe('Memes', () => {
 
             });
       });
+
+      it('it should NOT POST a duplicate meme with same payload {caption,name,url}', (done) => {
+          let meme = new Meme({ caption: "The Lord of the Rings", name: "J.R.R. Tolkien", url: "https://i.pinimg.com/originals/af/8d/63/af8d63a477078732b79ff9d9fc60873f.jpg" });
+          meme.save((err, meme) => {
+              chai.request(server)
+            .post('/memes' )
+            .send(meme)
+            .end((err, res) => {
+                  res.should.have.status(409);
+                  res.body.should.be.eql('DUPLICATE post not allowed!');
+              done();
+            });
+          });
+
+      });
   });
   describe('/GET/:id meme', () => {
       it('it should GET a meme by the given id', (done) => {
@@ -88,6 +103,17 @@ describe('Memes', () => {
           });
 
       });
+      it('it should NOT GET a meme that does not exist ', (done) => {
+          
+              chai.request(server)
+            .get('/memes/' + "a")
+            .end((err, res) => {
+                  res.should.have.status(404);
+                  res.body.should.be.eql("Meme not found with id " + "a");
+              done();
+            });
+          });
+
   });
   describe('/PATCH/:id meme', () => {
       it('it should UPDATE only URL,CAPTION of a meme given the id', (done) => {
@@ -109,6 +135,18 @@ describe('Memes', () => {
                 });
           });
       });
+
+      it('it should NOT PATCH a meme that does not exist ', (done) => {
+          
+              chai.request(server)
+            .get('/memes/' + "a")
+            .end((err, res) => {
+                  res.should.have.status(404);
+                  res.body.should.be.eql("Meme not found with id " + "a");
+              done();
+            });
+          });
+
   });
  /*
   * Test the /DELETE/:id route
@@ -132,5 +170,18 @@ describe('Memes', () => {
                 });
           });
       });
+
+      it('it should NOT DELETE a meme that does not exist ', (done) => {
+          
+              chai.request(server)
+            .get('/memes/' + "a")
+            .end((err, res) => {
+                  res.should.have.status(404);
+                  res.body.should.be.eql("Meme not found with id " + "a");
+              done();
+            });
+          });
+
+
   });
 });

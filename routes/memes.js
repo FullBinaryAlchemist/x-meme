@@ -26,10 +26,20 @@ router.route('/').post((req, res) => {
     caption,
     url
   });
-
-  newMeme.save()
-  .then(() => res.json({"id":newMeme.transform().id}))
-  .catch(err => res.status(400).json('Error: ' + err));
+  Meme.find({name,caption,url})
+  .then(fetchedMemes => {
+    console.log(fetchedMemes.length>0);
+    if (fetchedMemes.length>0){
+      res.status(409).json('DUPLICATE post not allowed!')
+    }
+    else{
+      newMeme.save()
+        .then(() => res.json({"id":newMeme.transform().id}))
+        .catch(err => res.status(400).json('Error: ' + err));
+    }
+  })
+  .catch(err => res.status(500).json('Error' + err));
+  
 });
 
  //MIDDLEWARE to check if meme with id exists
