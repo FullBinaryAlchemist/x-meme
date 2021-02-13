@@ -1,6 +1,9 @@
 const fetch = require("node-fetch");
 function checkBlobtype(blob){
-	return blob.type.includes("image/")
+	if (blob)
+		return blob.type.includes("image/");
+	else
+		return false;
 }
 const getBlob=async (url) => {
 	try{
@@ -8,7 +11,7 @@ const getBlob=async (url) => {
 	const blob= await response.blob();
 	return blob;
 	}catch(err){
-		console.log('error'+err);
+		console.log('getBlob Error:'+err);
 	}
   	
 }

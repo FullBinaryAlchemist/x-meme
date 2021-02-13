@@ -29,8 +29,10 @@ router.route('/').post((req, res) => {
     caption,
     url
   });
+
   Meme.find({name,caption,url})
   .then(async fetchedMemes => {
+    //check if no duplicate MEME exists
     //console.log(fetchedMemes.length>0);
     if (fetchedMemes.length>0){
       res.status(409).json('DUPLICATE post not allowed!')
@@ -39,7 +41,8 @@ router.route('/').post((req, res) => {
       //check if URL exists
       if(url){
         let result= await checkValidImgUrl(url)
-        console.log("test for "+url+":"+result);
+        //console.log("test for "+url+":"+result);
+        
         //check if proper image URL
         if(!result){
           return res.status(400).json("Not a valid image url!");
@@ -58,7 +61,7 @@ router.route('/').post((req, res) => {
       }
     }
   })
-  .catch(err => res.status(500).json('Error' + err));
+  .catch(err => res.status(400).json('Error' + err));
 
           
 });

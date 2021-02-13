@@ -98,6 +98,24 @@ describe('Memes', () => {
             });
       });
 
+      it('it should not POST a meme with INVALID URL ', (done) => {
+          let meme = {
+              caption: "The Lord of the Rings",
+              name: "J.R.R. Tolkien",
+              url: "i.pinimg.com/originals/"
+            }
+            chai.request(server)
+            .post('/memes')
+            .send(meme)
+            .end((err, res) => {
+                  res.should.have.status(400);
+                  res.body.should.be.eql("Not a valid image url!");
+                  done();
+
+                })
+
+      });
+
       it('it should NOT POST a duplicate meme with same payload {caption,name,url}', (done) => {
           let meme = new Meme({ caption: "The Lord of the Rings", name: "J.R.R. Tolkien", url: "https://i.pinimg.com/originals/af/8d/63/af8d63a477078732b79ff9d9fc60873f.jpg" });
           meme.save((err, meme) => {
