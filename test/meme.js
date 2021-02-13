@@ -29,6 +29,35 @@ describe('Memes', () => {
               done();
             });
       });
+      it('it should GET 100 latest memes', (done) => {
+            //adding 101 memes
+            const name="user";
+            const url="https://i.pinimg.com/originals/af/8d/63/af8d63a477078732b79ff9d9fc60873f.jpg";
+            const caption="Meme";
+            let myMemes=[]
+
+            for(let i=1;i<=101;i++){
+              myMemes.push(new Meme({url,caption,name: name+i}));
+            }
+
+            //console.log(myMemes);
+            Meme.insertMany(myMemes)
+              .then(function(memes) {
+                 chai.request(server)
+                  .get('/memes')
+                  .end((err, res) => {
+                        res.should.have.status(200);
+                        //console.log(res.body);
+                        res.body.should.be.a('array');
+                        res.body.length.should.be.eql(100);
+                        chai.assert.equal(res.body[0].name,"user101","Last MEME should be FIRST");
+                        chai.assert.equal(res.body[res.body.length-1].name,"user2","first MEME should be LAST");
+                      done();
+                    })
+
+            
+              });
+      });
   });
 
   describe('/POST meme', () => {

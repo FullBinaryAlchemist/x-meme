@@ -28,7 +28,7 @@ router.route('/').post((req, res) => {
   });
   Meme.find({name,caption,url})
   .then(fetchedMemes => {
-    console.log(fetchedMemes.length>0);
+    //console.log(fetchedMemes.length>0);
     if (fetchedMemes.length>0){
       res.status(409).json('DUPLICATE post not allowed!')
     }
