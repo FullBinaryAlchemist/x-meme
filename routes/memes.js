@@ -6,8 +6,8 @@ router.route('/').get((req, res) => {
     .then(memes => {
             let returnedMemes=[];
             
-            for (let i = 0; i < memes.length; i++) {
-              returnedMemes.push(memes[i].transform());
+            for (let i = 1; i <=memes.length && i<=100; i++) {
+              returnedMemes.push(memes[memes.length-i].transform());
             }
     
             res.json(returnedMemes);
