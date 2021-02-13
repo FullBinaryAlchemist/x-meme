@@ -61,7 +61,8 @@ describe('Memes', () => {
                   res.body.should.be.a('object');
                   //since we have only a single meme 
                   Meme.find(meme,(err,fetchedMemes) => {res.body.should.have.property('id').eql(fetchedMemes[0].id);
-                    done();
+                  
+                  done();
 
                 })
 
@@ -88,27 +89,27 @@ describe('Memes', () => {
 
       });
   });
-  // describe('/PATCH/:id meme', () => {
-  //     it('it should UPDATE a meme given the id', (done) => {
-  //         let meme = new Meme({caption: "The Chronicles of Narnia", name: "C.S. Lewis", url:"https://i.pinimg.com/originals/af/8d/63/af8d63a477078732b79ff9d9fc60873f.jpg"})
-  //         meme.save((err, meme) => {
-  //               chai.request(server)
-  //               .patch('/memes/' + meme.id)
-  //               .send({caption: "The Lord of The Rings", name: "L.R. Tolkien", url:"https://www.google.com" })
-  //               .end((err, res) => {
-  //                     res.should.have.status(200);
-  //                     Meme.findById(meme.id,(err,fetchedMeme)=>{
-  //                       console.log(fetchedMeme);
-  //                       assert.equal(fetchedMeme.name,meme.name) //name  NOT changed 
-  //                       assert.equal(fetchedMeme.caption,"The Lord of  Rings") //caption changed
-  //                       assert.equal(fetchedMeme.url,"https://www.google.com") //url change
-
-  //                     })
-  //                 done();
-  //               });
-  //         });
-  //     });
-  // });
+  describe('/PATCH/:id meme', () => {
+      it('it should UPDATE a meme given the id', (done) => {
+          let meme = new Meme({caption: "The Chronicles of Narnia", name: "C.S. Lewis", url:"https://i.pinimg.com/originals/af/8d/63/af8d63a477078732b79ff9d9fc60873f.jpg"})
+          meme.save((err, meme) => {
+                chai.request(server)
+                .patch('/memes/' + meme.id)
+                .send({caption: "The Lord of The Rings", name: "L.R. Tolkien", url:"https://www.google.com" })
+                .end((err, res) => {
+                      res.should.have.status(200);
+                      Meme.findById(meme.id,(err,fetchedMeme)=>{
+                        //console.log(fetchedMeme);
+                        chai.assert.equal(fetchedMeme.name,meme.name) //name  NOT changed 
+                        chai.assert.equal(fetchedMeme.caption,"The Lord of The Rings") //caption changed
+                        chai.assert.equal(fetchedMeme.url,"https://www.google.com") //url change
+                        done();
+                      })
+                  
+                });
+          });
+      });
+  });
  // /*
  //  * Test the /DELETE/:id route
  //  */
