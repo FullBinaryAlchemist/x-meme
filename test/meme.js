@@ -90,7 +90,7 @@ describe('Memes', () => {
       });
   });
   describe('/PATCH/:id meme', () => {
-      it('it should UPDATE a meme given the id', (done) => {
+      it('it should UPDATE only URL,CAPTION of a meme given the id', (done) => {
           let meme = new Meme({caption: "The Chronicles of Narnia", name: "C.S. Lewis", url:"https://i.pinimg.com/originals/af/8d/63/af8d63a477078732b79ff9d9fc60873f.jpg"})
           meme.save((err, meme) => {
                 chai.request(server)
@@ -100,9 +100,9 @@ describe('Memes', () => {
                       res.should.have.status(200);
                       Meme.findById(meme.id,(err,fetchedMeme)=>{
                         //console.log(fetchedMeme);
-                        chai.assert.equal(fetchedMeme.name,meme.name) //name  NOT changed 
-                        chai.assert.equal(fetchedMeme.caption,"The Lord of The Rings") //caption changed
-                        chai.assert.equal(fetchedMeme.url,"https://www.google.com") //url change
+                        chai.assert.equal(fetchedMeme.name,meme.name,"name should NOT have changed")  
+                        chai.assert.equal(fetchedMeme.caption,"The Lord of The Rings","caption should have CHANGED") 
+                        chai.assert.equal(fetchedMeme.url,"https://www.google.com","url should have CHANGED") 
                         done();
                       })
                   
@@ -110,24 +110,27 @@ describe('Memes', () => {
           });
       });
   });
- // /*
- //  * Test the /DELETE/:id route
- //  */
- //  describe('/DELETE/:id meme', () => {
- //      it('it should DELETE a meme given the id', (done) => {
- //          let meme = new Meme({caption: "The Chronicles of Narnia", name: "C.S. Lewis", year: 1948, pages: 778})
- //          meme.save((err, meme) => {
- //                chai.request(server)
- //                .delete('/meme/' + meme.id)
- //                .end((err, res) => {
- //                      res.should.have.status(200);
- //                      res.body.should.be.a('object');
- //                      res.body.should.have.property('message').eql('Meme successfully deleted!');
- //                      res.body.result.should.have.property('ok').eql(1);
- //                      res.body.result.should.have.property('n').eql(1);
- //                  done();
- //                });
- //          });
- //      });
- //  });
+ /*
+  * Test the /DELETE/:id route
+  */
+  describe('/DELETE/:id meme', () => {
+      it('it should DELETE a meme given the id', (done) => {
+          let meme = new Meme({caption: "The Chronicles of Narnia", name: "C.S. Lewis", url:"https://www.google.com"})
+          meme.save((err, meme) => {
+                chai.request(server)
+                .delete('/memes/' + meme.id)
+                .end((err, res) => {
+                      res.should.have.status(204);
+                      res.body.should.be.a('object');
+                      Meme.find(meme,(err,fetchedMeme)=>{
+                        //console.log(fetchedMeme);
+                        chai.expect(fetchedMeme).to.be.a('array',"empty array should be returned")
+                        chai.assert.lengthOf(fetchedMeme,0,"length of the array should be 0")  
+                        done();
+                      })
+                      
+                });
+          });
+      });
+  });
 });
