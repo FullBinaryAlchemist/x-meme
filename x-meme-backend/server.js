@@ -10,7 +10,8 @@ const swaggerUi = require("swagger-ui-express");
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const swagger= express();
+const port = process.env.PORT || 8081;
 
 //setting the swagger docs
 const swaggerOptions = {
@@ -24,7 +25,7 @@ const swaggerOptions = {
         name: "Divyanshu Gupta",
         email: "dgdivyanshu@gmail.com"
       },
-      servers: ["http://localhost:"+port]
+      servers: ["http://localhost:8081"]
     }
   },
   
@@ -32,7 +33,7 @@ const swaggerOptions = {
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use("/swagger-ui/", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+swagger.use("/swagger-ui/", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 
@@ -56,5 +57,10 @@ app.use('/memes',memesRouter);
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
+
+swagger.listen(8080,()=>{
+   console.log(`Swagger is running on port: 8080`);
+});
+swagger.use("/memes",memesRouter);
 
 module.exports= app
