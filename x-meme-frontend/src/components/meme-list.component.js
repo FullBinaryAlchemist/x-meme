@@ -15,7 +15,7 @@ export default class MemesList extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/memes/')
+    axios.get('http://ec2-3-91-197-94.compute-1.amazonaws.com:8081/memes/')
       .then(response => {
         this.setState({ memes: response.data })
       })

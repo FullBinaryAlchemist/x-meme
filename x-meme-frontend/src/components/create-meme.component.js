@@ -34,7 +34,7 @@ export default class CreateMemeComponent extends React.Component {
     			caption:this.state.caption
     			};
     console.log(meme);
-    axios.post('http://localhost:5000/memes', meme)
+    axios.post('http://ec2-3-91-197-94.compute-1.amazonaws.com:8081/memes', meme)
       .then(res => {console.log(res.data);
       	window.location="/";
       })

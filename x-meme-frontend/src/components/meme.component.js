@@ -30,7 +30,7 @@ export default class MemeComponent extends React.Component {
     			caption:this.state.caption
     			};
     console.log(meme);
-    axios.patch('http://localhost:5000/memes'+this.props.key, meme)
+    axios.patch('http://ec2-3-91-197-94.compute-1.amazonaws.com:8081/memes'+this.props.key, meme)
       .then(res => {console.log(res.data)
       		 //window.location = '/';
       })
