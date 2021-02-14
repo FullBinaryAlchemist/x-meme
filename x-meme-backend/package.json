@@ -4,6 +4,11 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "client-install": "npm install --prefix ../x-meme-frontend",
+    "start": "node server.js",
+    "server": "nodemon server.js --exec babel-node --presets babel-preset-env",
+    "client": "npm start --prefix ../x-meme-frontend",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix ../x-meme-frontend && npm run build --prefix ../x-meme-frontend",
     "test": "mocha --timeout 10000"
   },
   "keywords": [],
