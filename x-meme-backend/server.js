@@ -25,7 +25,7 @@ const swaggerOptions = {
         name: "Divyanshu Gupta",
         email: "dgdivyanshu@gmail.com"
       },
-      servers: ["http://localhost:8081"]
+      servers: ["http://localhost:8080"]
     }
   },
   
@@ -34,7 +34,7 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 swagger.use("/swagger-ui/", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
+swagger.use(express.json());
 
 
 app.use(cors());
