@@ -2,9 +2,9 @@
 
 
 # git clone the repo
-git clone https://gitlab.crio.do/COHORT_ME_BUILDOUT_XMEME_ENROLL_1612436694845/dgdivyanshu-me_buildout_xmeme.git
+git clone https://github.com/FullBinaryAlchemist/x-meme.git
 # cd to the cloned repo directory
-cd dgdivyanshu-ME_BUILDOUT_XMEME
+cd x-meme
 
 # Run the user’s installation steps which will install any necessary dependencies required for the server to run, with sudo permission
 
