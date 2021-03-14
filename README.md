@@ -10,8 +10,8 @@ Built from sratch as part of development challenge task by [Crio.do Winter of Do
    * `caption`(title)
    * `image url`(url of the image. Url must have property `Content-type:image/*` ) 
  
-- Edit Memes using the /PATCH/ api
-- Delete Memes using the /DELETE/ api
+- Edit Memes using the ```/PATCH/ api```
+- Delete Memes using the ```/DELETE/ api```
 
 ## Tech Stack:
 - Frontend
